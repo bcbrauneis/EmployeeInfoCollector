@@ -9,88 +9,55 @@ const collectEmployees = function() {
   while (newEmployee) {
     
   //ask for first name
-  let firstName = prompt("What is the employees first name?");
+  const firstName = prompt("What is the employees first name?");
   //ask for last name
-  let lastName = prompt("What is the employees last name?");
+  const lastName = prompt("What is the employees last name?");
   //ask for salary
   let salary = prompt("What is the employees salary?");
 
-  //add to array
-  employeesArray.push({firstName, lastName, salary});
+  if (isNaN(salary)){
+    salary = 0;
+}
+
+  const employee = {
+  firstName: firstName,
+  lastName: lastName,
+  salary: parseFloat(salary)
+};
+
+employeesArray.push(employee);
 
   //ask if you want to add another
   newEmployee = confirm("add another employee?");
   }
   //once done return the array
-  return employeesArray
-}
-
-
-
-
-const validateSalaries = function (employeesArray) {
-  // Filter out employees without a valid salary
-  const validSalariedEmployees = employeesArray.filter(function(employee) {
-    //other stuff
-    const expression = Number(employee.salary); //true or false 
-    return expression; //only return employees whose salary is a number, or when number is valid/true
-  });
-  return validSalariedEmployees;
-}
-
-const grabEmployeeSalaries = function(employees) {
-   // Extract salaries from employee objects
-  const salaries = employees.map(employee => employee.salary);
-  return salaries;
-}
-
-const getSalariesAverage = function(validSalaries) {
-   // Calculate the sum of all salaries
-   //add all the salaries together, and then divide by total
-
-   let sum = 0; //[10, 23, 42, 15]
-
-   for (let i = 0; i < validSalaries.length; i++) {
-      sum = sum + Number(validSalaries[i]);
-   }
-   console.log("Sum of Salaries:", sum);
-   // Calculate the average salary
-   const average = sum / validSalaries.length;
-
-   return average;
+  return employeesArray;
 }
 
 // Display the average salary
-const displayAverageSalary = function(employeesArray) {
+const displayAverageSalary = function(employees) {
+    let totalSalary = 0;
+    const totalEmployees = employees.length;
 
+    for (const employeesArray of employees){
+      totalSalary += employeesArray.salary;
+    }
+    //sets a variable 
+    let averageSalary = totalSalary / totalEmployees;
+    console.log(`The average salary of our ${totalEmployees} employees is $ ${averageSalary}`);
 }
-
-
-const test = function() {
-  const employeesArray = collectEmployees()
-  //console.log('this is the employees array', employeesArray);
-  const validSalariedEmployees = validateSalaries(employeesArray);
-  //console.log("These employees have valid salaries", validSalariedEmployees);
-  //const salary = displayAverageSalary(employeesArray)
-  //console.log('this is the salaries', salary);
-  const salaries = grabEmployeeSalaries(validSalariedEmployees);
-  //console.log("Array of employee salaries", salaries);
-  const average = getSalariesAverage(salaries);
-  console.log("Your average employee salary is $", average);
-  displayAverageSalary(average);
-}
-
-test();
-
 
 
 // Select a random employee
-const getRandomEmployee = function(employeesArray) {
+const getRandomEmployee = function(employees) {
   // TODO: Select and display a random employee
-}
+    let names = employees.length;
+    let index = Math.floor(Math.random() * (names));
+    let output = names[index] + " is the winner of the raffle!";
+     console.log(output);
 
-const test1 = function() {
-  
+  //const random = (Math.floor() * employeesArray.length)
+  //console.log(random);
 }
 
 /*
@@ -100,7 +67,7 @@ const test1 = function() {
 */
 
 // Display employee data in an HTML table
-const displayEmployees = function(employeesArray) {
+const displayEmployees = function(employees) {
   // Get the employee table
   const employeeTable = document.querySelector('#employee-table');
 
@@ -108,8 +75,8 @@ const displayEmployees = function(employeesArray) {
   employeeTable.innerHTML = '';
 
   // Loop through the employee data and create a row for each employee
-  for (let i = 0; i < employeesArray.length; i++) {
-    const currentEmployee = employeesArray[i];
+  for (let i = 0; i < employees.length; i++) {
+    const currentEmployee = employees[i];
 
     const newTableRow = document.createElement("tr");
 
@@ -135,17 +102,17 @@ const displayEmployees = function(employeesArray) {
 }
 
 const trackEmployeeData = function() {
-  const employees = collectEmployees();
+  const employeesArray = collectEmployees();
 
-  console.table(employees);
+  console.table(employeesArray);
 
-  displayAverageSalary(employees);
+  displayAverageSalary(employeesArray);
 
   console.log('==============================');
 
-  getRandomEmployee(employees);
+  getRandomEmployee(employeesArray);
 
-  employees.sort(function(a,b) {
+  employeesArray.sort(function(a,b) {
     if (a.lastName < b.lastName) {
       return -1;
     } else {
@@ -153,7 +120,7 @@ const trackEmployeeData = function() {
     }
   });
 
-  displayEmployees(employees);
+  displayEmployees(employeesArray);
 }
 
 // Add event listener to 'Add Employees' button
