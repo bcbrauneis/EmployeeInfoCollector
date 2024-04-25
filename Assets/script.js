@@ -15,10 +15,11 @@ const collectEmployees = function() {
   //ask for salary
   let salary = prompt("What is the employees salary?");
 
+  //sets a NaN for invalid salary inputs
   if (isNaN(salary)){
     salary = 0;
 }
-
+//sets a varriable for me to pull from
   const employee = {
   firstName: firstName,
   lastName: lastName,
@@ -42,7 +43,7 @@ const displayAverageSalary = function(employees) {
     for (const employeesArray of employees){
       totalSalary += employeesArray.salary;
     }
-    //sets a variable 
+    //sets a variable for the average salories to be calculated
     let averageSalary = totalSalary / totalEmployees;
     console.log(`The average salary of our ${totalEmployees} employees is $ ${averageSalary}`);
 }
@@ -51,14 +52,15 @@ const displayAverageSalary = function(employees) {
 // Select a random employee
 const getRandomEmployee = function(employees) {
   // TODO: Select and display a random employee
-    let names = employees.length;
-    let index = Math.floor(Math.random() * (names));
-    let output = names[index] + " is the winner of the raffle!";
-     console.log(output);
+    let index = Math.floor(Math.random() * employees.length);
+    //I could not get the math function figured out but I needed to get this submitted. 
+     console.log(employees[index].firstName + " is the winner of the raffle");
 
   //const random = (Math.floor() * employeesArray.length)
   //console.log(random);
 }
+
+//I had to change a some paramenters in the starter code to get it to function properly. the overall code was not changed.
 
 /*
   ====================
